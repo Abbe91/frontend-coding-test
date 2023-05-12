@@ -29,6 +29,7 @@
 import { ref, onMounted } from "vue";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
   setup() {
     const posts = ref([]);

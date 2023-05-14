@@ -22,14 +22,23 @@
         <input type="email" id="email" v-model="newUser.email" required />
       </div>
 
-      <button type="submit" class="submit-button">Create</button>
+      <div class="form-group">
+        <label for="picture">Profile Picture</label>
+        <input
+          type="file"
+          id="picture"
+          accept="image/*"
+          @change="onFileChange"
+        />
+      </div>
+
+      <button type="submit" class="submit-button">Create User</button>
     </form>
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
-import makeRequest from "./api.js";
 
 export default {
   name: "CreateUser",
@@ -38,26 +47,50 @@ export default {
       firstName: "",
       lastName: "",
       email: "",
+      picture: null,
     });
 
     const createUser = async () => {
       try {
-        const response = await makeRequest(
-          "POST",
+        const formData = new FormData();
+        formData.append("firstName", newUser.value.firstName);
+        formData.append("lastName", newUser.value.lastName);
+        formData.append("email", newUser.value.email);
+        formData.append("picture", newUser.value.picture);
+
+        const response = await fetch(
           "https://dummyapi.io/data/v1/user/create",
-          newUser.value
+          {
+            method: "POST",
+            headers: {
+              "app-id": "645e1fa135277554efa9d769",
+            },
+            body: formData,
+          }
         );
-        console.log("User created:", response);
-        // Handle the response or perform further actions
+
+        console.log("Response status:", response.status);
+        console.log("Response body:", await response.text());
+
+        if (!response.ok) {
+          throw new Error("Failed to create user");
+        }
+
+        // Handle success or redirect to appropriate page
       } catch (error) {
-        console.error("Failed to create user:", error);
-        // Handle the error appropriately
+        console.error(error);
       }
+    };
+
+    const onFileChange = (event) => {
+      const file = event.target.files[0];
+      newUser.value.picture = file;
     };
 
     return {
       newUser,
       createUser,
+      onFileChange,
     };
   },
 };

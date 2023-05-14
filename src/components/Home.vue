@@ -5,12 +5,14 @@
       <li v-for="post in posts" :key="post.id" class="post-item">
         <div class="post-box" @click="togglePostDetails(post.id)">
           <img
-            :src="post.owner.picture"
-            :alt="post.owner.firstName"
+            :src="post.owner ? post.owner.picture : ''"
+            :alt="post.owner ? post.owner.firstName : ''"
             class="post-avatar"
           />
           <p class="post-name">
-            {{ post.owner.title }},{{ " " }}{{ post.owner.firstName }}
+            {{
+              post.owner ? post.owner.title + ", " + post.owner.firstName : ""
+            }}
           </p>
           <p class="post-date">{{ formatDate(post.publishDate) }}</p>
           <h2>{{ post.title }}</h2>
@@ -45,7 +47,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 import { fetchPosts } from "../../api";
 import { useRouter } from "vue-router";
 

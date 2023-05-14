@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <CreatePost @post-created="handlePostCreated" />
     <h1>Latest Posts</h1>
     <ul>
       <li v-for="post in posts" :key="post.id" class="post-item">
@@ -47,17 +48,23 @@
 </template>
 
 <script>
-import { ref, onMounted, inject } from "vue";
+import CreatePost from "./CreatePost.vue";
+import { ref, onMounted } from "vue";
 import { fetchPosts } from "../../api";
 import { useRouter } from "vue-router";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
+  components: {},
   setup() {
     const posts = ref([]);
     const expandedPosts = ref([]);
     const router = useRouter();
+    const handlePostCreated = (post) => {
+      // Add the new post to the list of posts
+      posts.value.push(post);
+    };
 
     const fetchPostsData = async () => {
       try {
@@ -96,6 +103,7 @@ export default {
       formatDate,
       togglePostDetails,
       goToPostDetails,
+      handlePostCreated,
     };
   },
 };

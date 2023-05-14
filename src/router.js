@@ -21,7 +21,7 @@ const routes = [
     component: PostEdit,
   },
   {
-    path: "/createpost",
+    path: "/create",
     name: "CreatePost",
     component: CreatePost,
   },

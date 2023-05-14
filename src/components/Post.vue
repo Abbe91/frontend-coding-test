@@ -23,26 +23,19 @@
 
 <script>
 import { ref, onMounted } from "vue";
+import { fetchPosts } from "../../api";
 
 export default {
   name: "PostDetails",
   setup() {
     const post = ref(null);
+    const posts = ref(null);
     const comments = ref([]);
     const newComment = ref("");
 
-    const fetchPost = async () => {
+    const fetchPostsData = async () => {
       try {
-        const response = await fetch(
-          `https://dummyapi.io/data/v1/post/${$route.params.id}`,
-          {
-            headers: {
-              "app-id": "645e1fa135277554efa9d769",
-            },
-          }
-        );
-        const data = await response.json();
-        post.value = data;
+        posts.value = await fetchPosts();
       } catch (error) {
         console.error(error);
       }
@@ -50,16 +43,7 @@ export default {
 
     const fetchComments = async () => {
       try {
-        const response = await fetch(
-          `https://dummyapi.io/data/v1/post/${$route.params.id}/comment`,
-          {
-            headers: {
-              "app-id": "645e1fa135277554efa9d769",
-            },
-          }
-        );
-        const data = await response.json();
-        comments.value = data.data;
+        posts.value = await fetchPosts();
       } catch (error) {
         console.error(error);
       }
@@ -89,7 +73,7 @@ export default {
     };
 
     onMounted(() => {
-      fetchPost();
+      fetchPostsData();
       fetchComments();
     });
 

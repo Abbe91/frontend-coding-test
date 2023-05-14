@@ -1,25 +1,44 @@
 <template>
   <div class="home">
-    <h2>Posts</h2>
+    <h1>Latest Posts</h1>
     <ul>
       <li v-for="post in posts" :key="post.id" class="post-item">
-        <router-link :to="`/post/${post.id}`" class="post-title">
-          {{ post.owner.title }}
-        </router-link>
-
-        <p class="publish-date">{{ formatDate(post.publishDate) }}</p>
-        <div class="owner-info">
+        <div class="post-box" @click="togglePostDetails(post.id)">
           <img
             :src="post.owner.picture"
             :alt="post.owner.firstName"
-            class="owner-avatar"
+            class="post-avatar"
           />
-          <p class="owner-name">
-            By {{ post.owner.firstName }} {{ post.owner.lastName }}
+          <p class="post-name">
+            {{ post.owner.title }},{{ " " }}{{ post.owner.firstName }}
           </p>
+          <p class="post-date">{{ formatDate(post.publishDate) }}</p>
+          <h2>{{ post.title }}</h2>
+          <transition name="fade">
+            <div class="post-details" v-if="expandedPosts.includes(post.id)">
+              <p class="post-date">{{ formatDate(post.publishDate) }}</p>
+              <p class="post-name">{{ post.owner.title }}</p>
+
+              <div class="post-info">
+                <img
+                  :src="post.owner.picture"
+                  :alt="post.owner.firstName"
+                  class="post-avatar"
+                />
+                <p class="post-creator">
+                  By {{ post.owner.firstName }} {{ post.owner.lastName }}
+                </p>
+              </div>
+              <p class="post-text">{{ post.text }}</p>
+              <p class="post-tags" v-if="post.tags">
+                Tags: {{ post.tags.join(", ") }}
+              </p>
+              <router-link :to="`/post/${post.id}`" class="view-details-button"
+                >Write Comment</router-link
+              >
+            </div>
+          </transition>
         </div>
-        <p class="post-text">{{ post.text }}</p>
-        <p class="post-tags">Tags: {{ post.tags.join(", ") }}</p>
       </li>
     </ul>
   </div>
@@ -28,32 +47,53 @@
 <script>
 import { ref, onMounted } from "vue";
 import { fetchPosts } from "../../api";
+import { useRouter } from "vue-router";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
   setup() {
     const posts = ref([]);
+    const expandedPosts = ref([]);
+    const router = useRouter();
+
     const fetchPostsData = async () => {
       try {
         posts.value = await fetchPosts();
+        posts.value.forEach((post) => {
+          console.log("Owner Data:", post);
+        });
       } catch (error) {
-        console.error("Failed to fetch posts:", error);
+        console.error(error);
       }
+    };
+    const formatDate = (dateString) => {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
+    const togglePostDetails = (postId) => {
+      if (expandedPosts.value.includes(postId)) {
+        expandedPosts.value = expandedPosts.value.filter((id) => id !== postId);
+      } else {
+        expandedPosts.value.push(postId);
+      }
+    };
+
+    const goToPostDetails = (postId) => {
+      router.push(`/post/${postId}`);
     };
 
     onMounted(() => {
       fetchPostsData();
     });
 
-    const formatDate = (dateString) => {
-      const options = { year: "numeric", month: "long", day: "numeric" };
-      return new Date(dateString).toLocaleDateString(undefined, options);
-    };
-
     return {
       posts,
+      expandedPosts,
       formatDate,
+      togglePostDetails,
+      goToPostDetails,
     };
   },
 };
@@ -68,43 +108,57 @@ export default {
 
 .post-item {
   margin-bottom: 20px;
+}
+
+.post-box {
+  cursor: pointer;
   padding: 20px;
   border-radius: 8px;
   background-color: #f0f4f8;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.post-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  text-decoration: none;
-  margin-bottom: 10px;
+.post-box:hover {
+  background-color: #e3e8eb;
 }
 
-.publish-date {
-  color: #777;
-  font-size: 14px;
-  margin-bottom: 8px;
-}
-
-.owner-info {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.owner-avatar {
+.post-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
-.owner-name {
+.post-name {
   font-size: 16px;
   font-weight: bold;
   color: #333;
+  margin-bottom: 10px;
+}
+
+.post-details {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.post-details h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.post-date {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.post-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .post-text {
@@ -118,8 +172,27 @@ export default {
   color: #777;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.view-details-button {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #555;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.view-details-button:hover {
+  background-color: #333;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

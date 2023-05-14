@@ -27,29 +27,23 @@
 
 <script>
 import { ref, onMounted } from "vue";
+import { fetchPosts } from "../../api";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
   setup() {
     const posts = ref([]);
-
-    const fetchPosts = async () => {
+    const fetchPostsData = async () => {
       try {
-        const response = await fetch("https://dummyapi.io/data/v1/post", {
-          headers: {
-            "app-id": "645e1fa135277554efa9d769",
-          },
-        });
-        const data = await response.json();
-        posts.value = data.data;
+        posts.value = await fetchPosts();
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch posts:", error);
       }
     };
 
     onMounted(() => {
-      fetchPosts();
+      fetchPostsData();
     });
 
     const formatDate = (dateString) => {

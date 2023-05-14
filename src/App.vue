@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <CreatePost />
+    <router-view></router-view>
     <!-- <EditPost /> -->
-    <!-- <PostDetails /> -->
+    <PostDetails />
     <Post />
     <Home />
   </div>
@@ -11,7 +12,7 @@
 <script>
 import PostDetails from "./components/PostDetails.vue";
 import Post from "./components/Post.vue";
-import EditPost from "./components/EditPost.vue";
+// import EditPost from "./components/EditPost.vue";
 import CreatePost from "./components/CreatePost.vue";
 import Home from "./components/Home.vue";
 
@@ -19,7 +20,7 @@ export default {
   name: "App",
   components: {
     Post,
-    EditPost,
+    // EditPost,
     PostDetails,
     CreatePost,
     Home,

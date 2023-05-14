@@ -1,21 +1,38 @@
 <template>
-  <div>
-    <h2>PostDetails</h2>
+  <div class="post-details">
     <!-- <h2>{{ post.title }}</h2>
-    <p>{{ post.publishDate }}</p>
-    <p>By {{ post.owner.firstName }} {{ post.owner.lastName }}</p>
-    <p>{{ post.text }}</p>
-    <p>Tags: {{ post.tags.join(", ") }}</p>
+    <p class="publish-date">{{ formatDate(post.publishDate) }}</p>
+    <div class="owner-info">
+      <img
+        :src="post.owner.picture"
+        :alt="post.owner.firstName"
+        class="owner-avatar"
+      />
+      <p class="owner-name">
+        By {{ post.owner.firstName }} {{ post.owner.lastName }}
+      </p>
+    </div>
+    <p class="post-text">{{ post.text }}</p>
+    <p class="post-tags">Tags: {{ post.tags.join(", ") }}</p>
+
     <h3>Comments</h3>
     <ul>
-      <li v-for="comment in comments" :key="comment.id">
-        <p>{{ comment.owner.firstName }} {{ comment.owner.lastName }}:</p>
-        <p>{{ comment.message }}</p>
+      <li v-for="comment in comments" :key="comment.id" class="comment">
+        <p class="comment-author">
+          {{ comment.owner.firstName }} {{ comment.owner.lastName }}:
+        </p>
+        <p class="comment-message">{{ comment.message }}</p>
       </li>
     </ul>
+
     <h3>Create Comment</h3>
-    <textarea v-model="newComment" rows="3" cols="30"></textarea>
-    <button @click="addComment">Add Comment</button> -->
+    <textarea
+      v-model="newComment"
+      class="comment-input"
+      rows="3"
+      cols="30"
+    ></textarea>
+    <button @click="addComment" class="comment-button">Add Comment</button> -->
   </div>
 </template>
 
@@ -49,10 +66,10 @@ export default {
     const fetchComments = async () => {
       try {
         const response = await fetch(
-          `https://dummyapi.io/data/v1/post/${$route.params.id}/comment`,
+          `https://dummyapi.io/data/v1/post/${props.postId}/comment`,
           {
             headers: {
-              "app-id": "645e1fa135277554efa9d769",
+              "app-id": "6460e28743cff745b792ba3d",
             },
           }
         );
@@ -66,12 +83,12 @@ export default {
     const addComment = async () => {
       try {
         const response = await fetch(
-          `https://dummyapi.io/data/v1/post/${$route.params.id}/comment`,
+          `https://dummyapi.io/data/v1/post/${props.postId}/comment`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "app-id": "645e1fa135277554efa9d769",
+              "app-id": "6460e28743cff745b792ba3d",
             },
             body: JSON.stringify({
               message: newComment.value,
@@ -85,6 +102,10 @@ export default {
         console.error(error);
       }
     };
+    const formatDate = (dateString) => {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    };
 
     onMounted(() => {
       fetchPost();
@@ -96,6 +117,7 @@ export default {
       comments,
       newComment,
       addComment,
+      formatDate,
     };
   },
 };

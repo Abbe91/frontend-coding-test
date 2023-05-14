@@ -1,6 +1,13 @@
 <template>
   <div class="home">
-    <CreatePost @post-created="handlePostCreated" />
+    <!-- Display the newly created post -->
+    <div v-if="newPost" class="new-post">
+      <h3>New Post:</h3>
+      <p><strong>Title:</strong> {{ newPost.title }}</p>
+      <p><strong>Image:</strong> {{ newPost.image }}</p>
+      <p><strong>Text:</strong> {{ newPost.text }}</p>
+    </div>
+    <!-- Display the newly created post -->
     <h1>Latest Posts</h1>
     <ul>
       <li v-for="post in posts" :key="post.id" class="post-item">
@@ -48,11 +55,10 @@
 </template>
 
 <script>
-import CreatePost from "./CreatePost.vue";
 import { ref, onMounted } from "vue";
 import { fetchPosts } from "../../api";
 import { useRouter } from "vue-router";
-
+export const newPost = ref(null);
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",

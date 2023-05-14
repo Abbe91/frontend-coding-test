@@ -3,9 +3,9 @@
     <h2>Posts</h2>
     <ul>
       <li v-for="post in posts" :key="post.id" class="post-item">
-        <router-link :to="`/${post.id}`" class="post-title">{{
-          post.owner.title
-        }}</router-link>
+        <router-link :to="`/post/${post.id}`" class="post-title">
+          {{ post.owner.title }}
+        </router-link>
 
         <p class="publish-date">{{ formatDate(post.publishDate) }}</p>
         <div class="owner-info">

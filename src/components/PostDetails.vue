@@ -10,6 +10,7 @@
     </div>
     <p class="post-text">{{ post.text }}</p>
     <p class="post-tags" v-if="post.tags">Tags: {{ post.tags.join(", ") }}</p>
+    <p class="post-text">Like/S : {{ post.likes }}</p>
 
     <h3>Comments</h3>
     <ul>
@@ -70,51 +71,14 @@ export default {
       }
     };
 
-    const fetchComments = async () => {
-      try {
-        const response = await fetch(
-          `https://dummyapi.io/data/v1/post/${postId}/comment`,
-          {
-            headers: {
-              "app-id": "6460e28743cff745b792ba3d",
-            },
-          }
-        );
-        const data = await response.json();
-        comments.value = data.data;
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const addComment = async () => {
-      try {
-        const response = await fetch(
-          `https://dummyapi.io/data/v1/post/${postId}/comment`, // Update the endpoint URL
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "app-id": "YOUR_APP_ID", // Replace with your app ID
-            },
-            body: JSON.stringify({
-              message: newComment.value,
-            }),
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          comments.value.push(data);
-          newComment.value = "";
-        } else {
-          console.error("Failed to add comment:", response.status);
-          // Handle error condition
-        }
-      } catch (error) {
-        console.error("Failed to add comment:", error);
-        // Handle error condition
-      }
+    const addComment = () => {
+      const comment = {
+        firstName: "Abdullah",
+        lastName: "Abu-alhaijja",
+        message: newComment.value,
+      };
+      comments.value.push(comment);
+      newComment.value = "";
     };
 
     const formatDate = (dateString) => {
@@ -128,7 +92,6 @@ export default {
 
     onMounted(() => {
       fetchPost();
-      fetchComments();
     });
 
     return {

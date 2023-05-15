@@ -8,7 +8,6 @@ export default {
       image: null,
       text: "",
     });
-    const posts = ref([]);
     const createPost = async () => {
       try {
         const userId = "64623489927aeb277b70ac29";
@@ -54,7 +53,6 @@ export default {
 
     return {
       newPost,
-      posts,
       createPost,
       onImageChange,
     };

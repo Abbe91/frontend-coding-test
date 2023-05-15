@@ -43,3 +43,18 @@ input[type="email"] {
 .submit-button:hover {
   background-color: #45a049;
 }
+.notification {
+  background-color: #e5f3ff;
+  border: 1px solid #7ac4f1;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+.notificationFalse {
+  background-color: #670e4c;
+  border: 1px solid #971149;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+}

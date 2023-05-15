@@ -34,6 +34,12 @@
 
       <button type="submit" class="submit-button">Create User</button>
     </form>
+    <div v-if="showNotification" class="notification">
+      Thank you for joining us, {{ newUser.firstName }}!
+    </div>
+    <div v-if="showNotificationFalse" class="notificationFalse">
+      You are already member!, {{ newUser.firstName }}!
+    </div>
   </div>
 </template>
 

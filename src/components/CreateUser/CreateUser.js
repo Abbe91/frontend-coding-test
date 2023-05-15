@@ -7,50 +7,42 @@ export default {
       firstName: "",
       lastName: "",
       email: "",
-      picture: null,
     });
-
+    const showNotification = ref(false);
+    const showNotificationFalse = ref(false);
     const createUser = async () => {
       try {
-        const formData = new FormData();
-        formData.append("firstName", newUser.value.firstName);
-        formData.append("lastName", newUser.value.lastName);
-        formData.append("email", newUser.value.email);
-        formData.append("picture", newUser.value.picture);
-
         const response = await fetch(
           "https://dummyapi.io/data/v1/user/create",
           {
             method: "POST",
             headers: {
+              "Content-Type": "application/json",
               "app-id": appId,
             },
-            body: formData,
+            body: JSON.stringify(newUser.value),
           }
         );
-
-        console.log("Response status:", response.status);
-        console.log("Response body:", await response.text());
 
         if (!response.ok) {
           throw new Error("Failed to create user");
         }
 
+        const responseData = await response.json();
+        console.log("Created User ID:", responseData.id);
+        showNotification.value = true;
         // Handle success or redirect to appropriate page
       } catch (error) {
+        showNotificationFalse.value = true;
+
         console.error(error);
       }
     };
-
-    const onFileChange = (event) => {
-      const file = event.target.files[0];
-      newUser.value.picture = file;
-    };
-
     return {
       newUser,
       createUser,
-      onFileChange,
+      showNotification,
+      showNotificationFalse,
     };
   },
 };

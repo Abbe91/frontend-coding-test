@@ -1,5 +1,5 @@
 import { ref } from "vue";
-
+import { appId } from "../ApiConnection/api";
 export default {
   name: "CreatePost",
   setup() {
@@ -8,27 +8,43 @@ export default {
       image: null,
       text: "",
     });
-
     const posts = ref([]);
+    const createPost = async () => {
+      try {
+        const userId = "64623489927aeb277b70ac29";
+        const response = await fetch(
+          "https://dummyapi.io/data/v1/post/create",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "app-id": appId,
+            },
+            body: JSON.stringify({
+              owner: userId,
+              post: {
+                title: newPost.value.title,
+                image: newPost.value.image,
+                text: newPost.value.text,
+              },
+            }),
+          }
+        );
 
-    const createPost = () => {
-      const postId = generateId();
-      // Perform the post creation logic
-      // ...
+        if (!response.ok) {
+          throw new Error("Failed to create post");
+        }
 
-      // Push the created post into the posts array
-      posts.value.push({
-        id: postId,
-        title: newPost.value.title,
-        image: newPost.value.image,
-        text: newPost.value.text,
-      });
-      console.log("Created Post ID:", postId);
+        const createdPost = await response.json();
+        console.log("Created Post:", createdPost);
 
-      // Reset the newPost object
-      newPost.value.title = "";
-      newPost.value.image = null;
-      newPost.value.text = "";
+        // Reset the newPost object
+        newPost.value.title = "";
+        newPost.value.image = null;
+        newPost.value.text = "";
+      } catch (error) {
+        console.error("Failed to create post:", error);
+      }
     };
 
     const onImageChange = (event) => {
@@ -36,16 +52,11 @@ export default {
       newPost.value.image = URL.createObjectURL(file);
     };
 
-    const generateId = () => {
-      return Math.random().toString(36).substring(2, 15);
-    };
-
     return {
       newPost,
       posts,
       createPost,
       onImageChange,
-      generateId,
     };
   },
 };

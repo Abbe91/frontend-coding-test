@@ -28,13 +28,14 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
   name: "EditPost",
   setup() {
     const post = ref(null);
     const route = useRoute();
+    const router = useRouter();
     const postId = route.params.id;
 
     const fetchPost = async () => {
@@ -62,9 +63,10 @@ export default {
             "Content-Type": "application/json",
             "app-id": "6460e28743cff745b792ba3d",
           },
-          body: JSON.stringify(post.value.text),
+          body: JSON.stringify(post.value),
         });
         // Handle success or redirect to post details page
+        router.push(`/post/${postId}`);
       } catch (error) {
         console.error(error);
       }
@@ -81,6 +83,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .edit-post {
   max-width: 600px;

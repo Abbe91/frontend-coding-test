@@ -1,6 +1,10 @@
 <template>
   <div v-if="post" class="edit-post">
     <h2>Edit Post</h2>
+    <p>
+      Please make sure you have the right id in the url to be sure your action
+      is correct:
+    </p>
     <form @submit.prevent="updatePost" class="post-form">
       <div class="form-group">
         <label for="title" class="form-label">Title</label>

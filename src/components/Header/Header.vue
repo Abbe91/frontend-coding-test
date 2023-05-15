@@ -5,6 +5,7 @@
       <nav class="nav">
         <router-link to="/" class="nav-link">Home</router-link>
         <router-link to="/create" class="nav-link">Create Post</router-link>
+        <router-link to="/createuser" class="nav-link">Create user</router-link>
         <router-link to="post/:id/edit/" class="nav-link"
           >Edit Post</router-link
         >

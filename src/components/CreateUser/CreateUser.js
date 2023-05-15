@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { appID } from "../ApiConnection/api";
+import { appId } from "../ApiConnection/api";
 export default {
   name: "CreateUser",
   setup() {
@@ -23,7 +23,7 @@ export default {
           {
             method: "POST",
             headers: {
-              "app-id": appID,
+              "app-id": appId,
             },
             body: formData,
           }

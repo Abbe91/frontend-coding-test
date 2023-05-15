@@ -1,6 +1,6 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-
+import { appID } from "../ApiConnection/api";
 export default {
   name: "EditPost",
   setup() {
@@ -15,7 +15,7 @@ export default {
           `https://dummyapi.io/data/v1/post/${postId}`,
           {
             headers: {
-              "app-id": "6460e28743cff745b792ba3d",
+              "app-id": appID,
             },
           }
         );
@@ -32,7 +32,7 @@ export default {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "app-id": "6460e28743cff745b792ba3d",
+            "app-id": appID,
           },
           body: JSON.stringify(post.value),
         });

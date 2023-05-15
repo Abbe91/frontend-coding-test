@@ -1,6 +1,6 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-
+import { appId } from "../ApiConnection/api";
 export default {
   name: "PostDetails",
   props: {
@@ -24,7 +24,7 @@ export default {
           `https://dummyapi.io/data/v1/post/${postId}`,
           {
             headers: {
-              "app-id": "6460e28743cff745b792ba3d",
+              "app-id": appId,
             },
           }
         );

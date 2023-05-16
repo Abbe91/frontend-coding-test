@@ -16,7 +16,6 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const postId = route.params.id;
-
     const fetchPost = async () => {
       try {
         console.log("postId:", postId);
@@ -46,7 +45,8 @@ export default {
           },
         });
         // Handle success or redirect to appropriate page
-        router.push(`/post/${postId}`);
+
+        router.push(`/`);
       } catch (error) {
         console.error(error);
       }
@@ -81,6 +81,8 @@ export default {
       addComment,
       formatDate,
       deletePost,
+      showNotification,
+      showNotificationFalse,
     };
   },
 };

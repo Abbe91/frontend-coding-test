@@ -4,6 +4,7 @@ import PostDetails from "./components/PostDetails/PostDetails.vue";
 import CreatePost from "./components/CreatePost/CreatePost.vue";
 import PostEdit from "./components/EditPost/EditPost.vue";
 import CreateUser from "./components/CreateUser/CreateUser.vue";
+import DeletePost from "./components/DeletePost/DeletePost.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/createuser",
     name: "CreateUser",
     component: CreateUser,
+  },
+  {
+    path: "/deletepost",
+    name: "DeletePost",
+    component: DeletePost,
   },
 ];
 

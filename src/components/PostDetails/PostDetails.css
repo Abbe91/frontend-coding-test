@@ -30,6 +30,28 @@
   resize: vertical;
 }
 
+.delete-button {
+  padding: 10px 20px;
+  background-color: #7e2657;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
 .comment-button {
-  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #7c3b76;
+}
+.comment-button:hover {
+  background-color: #0056b3;
+}
+
+.comment-button {
+  margin-left: 10px;
 }

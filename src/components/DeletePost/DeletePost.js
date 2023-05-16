@@ -1,31 +1,22 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { appId } from "../ApiConnection/api";
+import { appID } from "../ApiConnection/api";
+
 export default {
-  name: "PostDetails",
-  props: {
-    postId: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props) {
+  name: "DeletePost",
+  setup() {
     const post = ref(null);
-    const comments = ref([]);
-    const newComment = ref("");
     const route = useRoute();
     const router = useRouter();
     const postId = route.params.id;
 
     const fetchPost = async () => {
       try {
-        console.log("postId:", postId);
-
         const response = await fetch(
           `https://dummyapi.io/data/v1/post/${postId}`,
           {
             headers: {
-              "app-id": appId,
+              "app-id": appID,
             },
           }
         );
@@ -42,32 +33,14 @@ export default {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            "app-id": appId,
+            "app-id": appID,
           },
         });
         // Handle success or redirect to appropriate page
-        router.push(`/post/${postId}`);
+        router.push("/posts");
       } catch (error) {
         console.error(error);
       }
-    };
-    const addComment = () => {
-      const comment = {
-        firstName: "Abdullah",
-        lastName: "Abu-alhaijja",
-        message: newComment.value,
-      };
-      comments.value.push(comment);
-      newComment.value = "";
-    };
-
-    const formatDate = (dateString) => {
-      if (!dateString || dateString === "Invalid Date") {
-        return "Unknown";
-      }
-
-      const options = { year: "numeric", month: "long", day: "numeric" };
-      return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
     onMounted(() => {
@@ -76,10 +49,6 @@ export default {
 
     return {
       post,
-      comments,
-      newComment,
-      addComment,
-      formatDate,
       deletePost,
     };
   },

@@ -29,6 +29,7 @@
       rows="3"
       cols="30"
     ></textarea>
+    <button @click="deletePost" class="delete-button">Delete Post</button>
     <button @click="addComment" class="comment-button">Add Comment</button>
   </div>
 </template>

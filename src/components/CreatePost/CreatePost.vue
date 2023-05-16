@@ -31,7 +31,6 @@
 
     <div v-if="showNotification">
       <p>Post created successfully!</p>
-      <p>Created Post ID: {{ createdPostId }}</p>
     </div>
 
     <div v-if="showNotificationFalse">

@@ -81,8 +81,6 @@ export default {
       addComment,
       formatDate,
       deletePost,
-      showNotification,
-      showNotificationFalse,
     };
   },
 };

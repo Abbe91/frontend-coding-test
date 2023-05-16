@@ -48,10 +48,14 @@
     <div v-if="showNotification" class="notification success">
       <p>User created successfully!</p>
       <p>Created User ID: {{ createdUserId }}</p>
+      <p>
+        Please Copy your Id and post it in UserId to be abele to create a post
+        with your name
+      </p>
     </div>
 
     <div v-if="showNotificationFalse" class="notification error">
-      <p>Failed to create user.</p>
+      <p>You are already a memmber with us {{ newUser.firstName }}.</p>
     </div>
   </div>
 </template>

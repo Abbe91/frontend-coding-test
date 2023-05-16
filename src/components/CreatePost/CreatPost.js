@@ -4,7 +4,7 @@ import { appId } from "../ApiConnection/api";
 export default {
   name: "CreatePost",
   setup() {
-    const userId = "646330845f3ddc08319a9301";
+    const userId = "6463587c5f3ddc87bf9aa7cf";
     const newPost = ref({
       text: "",
       likes: 0,

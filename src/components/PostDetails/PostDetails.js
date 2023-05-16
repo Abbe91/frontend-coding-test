@@ -9,7 +9,7 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const post = ref(null);
     const comments = ref([]);
     const newComment = ref("");

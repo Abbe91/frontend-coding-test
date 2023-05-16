@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="home" id="scroll-animate">
     <!-- Display the newly created post -->

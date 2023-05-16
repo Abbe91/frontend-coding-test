@@ -10,7 +10,7 @@ export default {
     });
     const createPost = async () => {
       try {
-        const userId = "6462420a8852286e35ff0f16";
+        const userId = "646328465f3ddc9d2d9a52a4";
         const response = await fetch(
           "https://dummyapi.io/data/v1/post/create",
           {

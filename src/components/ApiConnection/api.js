@@ -1,7 +1,8 @@
+export const appId = "64620318bdacb27f42e5c93d";
 export async function makeRequest(method, url, data = {}) {
   const headers = {
     "Content-Type": "application/json",
-    "app-id": "645e1fa135277554efa9d769",
+    "app-id": appId,
   };
 
   const options = {
@@ -25,7 +26,7 @@ export async function fetchPosts() {
   try {
     const response = await fetch("https://dummyapi.io/data/v1/post", {
       headers: {
-        "app-id": "645e1fa135277554efa9d769",
+        "app-id": appId,
       },
     });
     const data = await response.json();

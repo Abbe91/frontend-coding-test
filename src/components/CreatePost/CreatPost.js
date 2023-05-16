@@ -3,14 +3,18 @@ import { appId } from "../ApiConnection/api";
 export default {
   name: "CreatePost",
   setup() {
+    const userId = "646330845f3ddc08319a9301";
     const newPost = ref({
       title: "",
-      image: null,
+      image: "",
       text: "",
+      likes: 0,
+      tags: [],
+      owner: userId,
     });
+    const tagInput = ref("");
     const createPost = async () => {
       try {
-        const userId = "646328465f3ddc9d2d9a52a4";
         const response = await fetch(
           "https://dummyapi.io/data/v1/post/create",
           {
@@ -35,15 +39,31 @@ export default {
         }
 
         const createdPost = await response.json();
-        console.log("Created Post:", createdPost);
+        console.log("Created Post: 01", createdPost);
+
+        // Push the created post into the posts array
+        console.log("Created Post: 02", newPost.value);
 
         // Reset the newPost object
         newPost.value.title = "";
-        newPost.value.image = null;
+        newPost.value.image = "";
         newPost.value.text = "";
+        newPost.value.tags = [];
       } catch (error) {
         console.error("Failed to create post:", error);
       }
+    };
+
+    const addTag = () => {
+      const tag = tagInput.value.trim();
+      if (tag) {
+        newPost.value.tags.push(tag);
+        tagInput.value = "";
+      }
+    };
+
+    const removeTag = (index) => {
+      newPost.value.tags.splice(index, 1);
     };
 
     const onImageChange = (event) => {
@@ -55,6 +75,8 @@ export default {
       newPost,
       createPost,
       onImageChange,
+      addTag,
+      removeTag,
     };
   },
 };

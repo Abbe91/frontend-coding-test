@@ -27,7 +27,7 @@ input[type="text"],
 textarea {
   width: 100%;
   padding: 10px;
-  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .submit-button {
@@ -42,4 +42,34 @@ textarea {
 
 .submit-button:hover {
   background-color: #45a049;
+}
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.tag-remove {
+  margin-left: 5px;
+  cursor: pointer;
 }
